@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KKWIEER Student Login</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #bfdbfe, #dbeafe);
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      justify-content: center;
+    }
+    .container {
+      text-align: center;
+      background: white;
+      padding: 40px 30px;
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+      width: 45%;
+      max-width: 600px;
+      min-width: 320px;
+    }
+    .container img {
+      width: 160px;
+      margin-bottom: 20px;
+    }
+    h1 {
+      color: #1e3a8a;
+      font-size: 22px;
+      margin-bottom: 20px;
+    }
+    h2 { text-align: center; color: #1e3a8a; margin-bottom: 20px; }
+    input[type="text"], input[type="password"] { width: 90%; padding: 12px; margin: 10px auto; display: block; border: 1px solid #bbb; border-radius: 15px; font-size: 15px; }
+    .btn { width: 100%; padding: 12px; background-color: #1e3a8a; color: white; border: none; border-radius: 15px; font-size: 16px; cursor: pointer; margin-top: 15px; transition: background-color 0.3s; }
+    .btn:hover { background-color: #1e40af; }
+    .links { text-align: center; margin-top: 15px; font-size: 14px; color: #555; }
+    .links a { color: #1e3a8a; text-decoration: none; font-weight: bold; }
+    .alert { padding: 15px; margin-bottom: 20px; border: 1px solid transparent; border-radius: 15px; text-align: center; font-size: 15px; }
+    .alert-danger { color: #a94442; background-color: #f2dede; border-color: #ebccd1; }
+    .alert-success { color: #3c763d; background-color: #dff0d8; border-color: #d6e9c6; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img src="https://tse4.mm.bing.net/th/id/OIP.eJ9MQ8lh5JFqfD1CmNghzQAAAA?pid=Api&P=0&h=180" alt="KKW Logo">
+    <h1>EXAM SEATING ARRANGEMENT SYSTEM</h1>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}{% for category, message in messages %}<div class="alert alert-{{ category }}">{{ message }}</div>{% endfor %}{% endif %}
+    {% endwith %}
+    <h2>Student Login</h2>
+    <form method="POST" action="{{ url_for('student_login') }}">
+      <input type="text" name="username" placeholder="Username" required>
+      <input type="password" name="password" placeholder="Password" required>
+      <button class="btn" type="submit">Login</button>
+    </form>
+    <div class="links">
+      <a href="{{ url_for('sforgot') }}">Forgot Password?</a><br>
+      Don't have an account? <a href="{{ url_for('student_signup') }}">Sign up</a>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - KKWIEER</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body { background: linear-gradient(to right, #e8f0ff, #f5f9ff); font-size: 15px; }
+        .card { box-shadow: 0 4px 8px rgba(0,0,0,0.1); border: none; border-radius: 15px; }
+        .card-header { background-color: #272772; color: white; border-radius: 15px 15px 0 0; font-size: 16px; }
+        .card-body { border-radius: 0 0 15px 15px; font-size: 14px; }
+        .btn-primary { background-color: #272772; border-color: #272772; border-radius: 10px; font-size: 14px; }
+        .btn-outline-primary { border-color: #272772; color: #272772; border-radius: 10px; font-size: 14px; }
+        .btn-outline-primary:hover { background-color: #272772; border-color: #272772; }
+        .btn-outline-primary.active { background-color: #dbeafe; border-color: #272772; color: #272772; }
+        .btn-outline-danger { border-color: #dc3545; color: #dc3545; border-radius: 10px; font-size: 14px; }
+        .btn-light { background-color: white; border-color: white; color: #272772; border-radius: 10px; font-size: 14px; }
+        .navbar-brand { font-size: 19px; }
+        .navbar-text { font-size: 15px; }
+        .nav-link { font-size: 15px; }
+        h4 { font-size: 18px; }
+        h5 { font-size: 16px; }
+        h6 { font-size: 15px; }
+        .alert { 
+            font-size: 13px; 
+            border-radius: 8px; 
+            padding: 10px 15px; 
+            margin-bottom: 8px; 
+            border: none;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        .alert .btn-close {
+            position: absolute;
+            top: 4px;
+            right: 10px;
+            font-size: 12px;
+            opacity: 0.7;
+        }
+        .alert .btn-close:hover {
+            opacity: 1;
+        }
+        .form-select, .form-select option, .form-control, .form-text, .form-label { font-size: 14px; }
+        .form-select, .form-control { border-radius: 15px; }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #272772;">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">K. K. Wagh Institute of Engineering Education & Research</a>
+            <a class="navbar-brand" href="#"></a>
+            <a class="navbar-brand" href="#"></a>
+            <a class="navbar-brand" href="#"></a>
+            <a class="navbar-brand" href="#"></a>
+            <a class="navbar-brand" href="#"></a>
+            <a class="navbar-brand" href="#"></a>
+            <a class="navbar-brand" href="#"></a>
+            <a class="navbar-brand" href="#"></a>
+            <a class="navbar-brand" href="#"></a>
+            <a class="navbar-brand" href="#"></a>
+            <a class="navbar-brand" href="#"></a>
+            <a class="navbar-brand" href="#"></a>
+            <a class="navbar-brand" href="#">EXAM CELL</a>
+            <div class="navbar-nav ms-auto">
+                <span class="navbar-text me-3">Welcome, {{ session.username }}!</span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid mt-1" style="max-width: 1600px;">
+        <div class="card mb-3">
+            <div class="card-body p-2">
+                <div class="d-flex justify-content-center flex-wrap gap-3 align-items-center">
+                    <a href="{{ url_for('admin_home') }}" class="text-decoration-none" style="color: #272772; font-size: 24px; margin-right: 10px;">
+                        <i class="fas fa-home"></i>
+                    </a>
+                    <a href="{{ url_for('admin_info') }}" class="btn btn-outline-primary">
+                        <i class="fas fa-users me-2"></i>Admin Info
+                    </a>
+                    <a href="{{ url_for('admin_exam') }}" class="btn btn-outline-primary active">
+                        <i class="fas fa-clipboard-list me-2"></i>Exam
+                    </a>
+                    <a href="{{ url_for('admin_allocation') }}" class="btn btn-outline-primary">
+                        <i class="fas fa-chair me-2"></i>Allocation
+                    </a>
+                    <a href="{{ url_for('classroom') }}" class="btn btn-outline-primary">
+                        <i class="fas fa-chalkboard me-2"></i>Classroom
+                    </a>
+                    <a href="{{ url_for('admin_records') }}" class="btn btn-outline-primary">
+                        <i class="fas fa-calendar-alt me-2"></i>Schedule
+                    </a>
+                    <a href="{{ url_for('logout') }}" class="btn btn-outline-danger">
+                        <i class="fas fa-sign-out-alt me-2"></i>Logout
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-12">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ 'success' if category == 'success' else 'info' if category == 'info' else 'danger' }} alert-dismissible fade show auto-dismiss">
+                        <span style="padding-right: 20px;">{{ message }}</span>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Instructions</h5>
+                    </div>
+                    <div class="card-body">
+                        <ul>
+                            <li>Students will be distributed in sets of 35 per classroom</li>
+                            <li>Classrooms are named with wing A, B, C, D, E followed by numbers</li>
+                            <li>If there are remaining students after filling complete classrooms, they will be allocated to the last classroom</li>
+                            <li>Roll numbers should be in format: S1234567890</li>
+                            <li>Upload a plain text file with roll numbers separated by commas</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-7">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Exam Management</h4>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST" enctype="multipart/form-data" id="examForm">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Exam Type</label>
+                                    <select class="form-select" name="exam_type" required>
+                                        <option value="">Select Exam Type</option>
+                                        <option value="In-Sem">In-Sem</option>
+                                        <option value="End-Sem">End-Sem</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Semester</label>
+                                    <select class="form-select" name="semester" required>
+                                        <option value="">Select Semester</option>
+                                        <option value="I">I</option>
+                                        <option value="II">II</option>
+                                        <option value="III">III</option>
+                                        <option value="IV">IV</option>
+                                        <option value="V">V</option>
+                                        <option value="VI">VI</option>
+                                        <option value="VII">VII</option>
+                                        <option value="VIII">VIII</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Year</label>
+                                    <select class="form-select" name="year" required>
+                                        <option value="">Select Year</option>
+                                        <option value="1st">1st</option>
+                                        <option value="2nd">2nd</option>
+                                        <option value="3rd">3rd</option>
+                                        <option value="4th">4th</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Branch</label>
+                                    <select class="form-select" name="branch" required>
+                                        <option value="">Select Branch</option>
+                                        <option value="Computer">Computer</option>
+                                        <option value="Civil">Civil</option>
+                                        <option value="Electrical">Electrical</option>
+                                        <option value="AIDS">AIDS</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-12 mb-3" style="width: 60%;">
+                                    <label class="form-label">Number of Classes Available</label>
+                                    <div class="d-flex gap-2">
+                                        <div class="position-relative" style="width: 60%;">
+                                            <input type="number" class="form-control" name="no_of_classes" id="no_of_classes" min="1" max="20" required onchange="showClassroomSelection()" style="-webkit-appearance: textfield; -moz-appearance: textfield; padding-right: 50px;">
+                                            <div class="position-absolute" style="right: 10px; top: 50%; transform: translateY(-50%);">
+                                                <span onclick="decreaseClasses()" style="cursor: pointer; color: #dc3545; font-weight: bold; font-size: 18px; margin-right: 5px;">-</span>
+                                                <span onclick="increaseClasses()" style="cursor: pointer; color: #28a745; font-weight: bold; font-size: 18px;">+</span>
+                                            </div>
+                                        </div>
+                                        <button type="button" class="btn btn-outline-primary" id="choose_btn" onclick="openClassroomModal()">Choose</button>
+                                    </div>
+                                    <div class="form-text">Each class can accommodate 35 students</div>
+                                    <div id="selected_classrooms_display" class="mt-2"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label">Upload Student Roll Numbers (TXT File)</label>
+                                <input type="file" class="form-control" name="student_file" accept=".txt" required>
+                                <div class="form-text">Upload a text file with roll numbers separated by commas (e.g., S1234567890,S1234567891,S1234567892)</div>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary" onclick="return validateForm()">Create Exam & Allocate Seats</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Classroom Selection Modal -->
+    <div class="modal fade" id="classroomModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Select Classrooms</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="d-flex flex-wrap gap-1">
+                        {% for classroom in all_classrooms %}
+                        <div class="classroom-box border p-1 position-relative classroom-selectable" 
+                             style="background: #f8f9fa; width: 1.7cm; height: 0.7cm; text-align: center; display: flex; flex-direction: row; justify-content: center; align-items: center; font-size: 10px; border-radius: 15px; cursor: pointer;" 
+                             data-id="{{ classroom.id }}" onclick="toggleClassroom(this)">
+                            <i class="fas fa-map-marker-alt" style="font-size: 8px; color: #dc3545; margin-right: 2px;"></i>
+                            <span class="classroom-text">{{ classroom.block_no }}. {{ classroom.wing }}-{{ classroom.class_no }}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="confirmClassroomSelection()">Confirm Selection</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const alerts = document.querySelectorAll('.auto-dismiss');
+            alerts.forEach(alert => {
+                setTimeout(() => {
+                    alert.style.transition = 'opacity 3s ease-out';
+                    alert.style.opacity = '0';
+                    setTimeout(() => alert.remove(), 3000);
+                }, 4000);
+            });
+        });
+        
+        function showClassroomSelection() {
+            // Button is always visible now
+        }
+        
+        function increaseClasses() {
+            const input = document.getElementById('no_of_classes');
+            const current = parseInt(input.value) || 0;
+            if (current < 20) {
+                input.value = current + 1;
+                showClassroomSelection();
+            }
+        }
+        
+        function decreaseClasses() {
+            const input = document.getElementById('no_of_classes');
+            const current = parseInt(input.value) || 0;
+            if (current > 1) {
+                input.value = current - 1;
+                showClassroomSelection();
+            }
+        }
+        
+        function openClassroomModal() {
+            const examType = document.querySelector('[name="exam_type"]').value;
+            const semester = document.querySelector('[name="semester"]').value;
+            const year = document.querySelector('[name="year"]').value;
+            const branch = document.querySelector('[name="branch"]').value;
+            const noOfClasses = document.getElementById('no_of_classes').value;
+            
+            if (!examType || !semester || !year || !branch || !noOfClasses) {
+                alert('Please fill all fields before selecting classrooms.');
+                return;
+            }
+            
+            const modal = new bootstrap.Modal(document.getElementById('classroomModal'));
+            modal.show();
+        }
+        
+        function toggleClassroom(element) {
+            const noOfClasses = parseInt(document.getElementById('no_of_classes').value);
+            const selectedCount = document.querySelectorAll('.classroom-selectable.selected').length;
+            
+            if (element.classList.contains('selected')) {
+                element.classList.remove('selected');
+                element.style.background = '#f8f9fa';
+            } else {
+                if (selectedCount >= noOfClasses) {
+                    alert(`You can only select ${noOfClasses} classrooms.`);
+                    return;
+                }
+                element.classList.add('selected');
+                element.style.background = '#d4edda';
+            }
+        }
+        
+        function confirmClassroomSelection() {
+            const noOfClasses = parseInt(document.getElementById('no_of_classes').value);
+            const selectedBoxes = document.querySelectorAll('.classroom-selectable.selected');
+            
+            if (selectedBoxes.length !== noOfClasses) {
+                alert(`Please select exactly ${noOfClasses} classrooms.`);
+                return;
+            }
+            
+            // Display selected classrooms
+            const displayDiv = document.getElementById('selected_classrooms_display');
+            let displayText = 'Selected: ';
+            selectedBoxes.forEach((box, index) => {
+                const text = box.querySelector('.classroom-text').textContent;
+                displayText += text + (index < selectedBoxes.length - 1 ? ', ' : '');
+            });
+            displayDiv.innerHTML = `<small class="text-success">${displayText}</small>`;
+            
+            // Close modal
+            const modal = bootstrap.Modal.getInstance(document.getElementById('classroomModal'));
+            modal.hide();
+        }
+        
+        function validateForm() {
+            const noOfClasses = parseInt(document.getElementById('no_of_classes').value);
+            const selectedBoxes = document.querySelectorAll('.classroom-selectable.selected');
+            
+            if (selectedBoxes.length !== noOfClasses) {
+                alert(`Please select exactly ${noOfClasses} classrooms.`);
+                return false;
+            }
+            
+            // Remove any existing hidden inputs
+            const existingInputs = document.querySelectorAll('input[name="selected_classrooms"]');
+            existingInputs.forEach(input => input.remove());
+            
+            // Create hidden inputs for selected classrooms
+            const form = document.getElementById('examForm');
+            selectedBoxes.forEach(box => {
+                const hiddenInput = document.createElement('input');
+                hiddenInput.type = 'hidden';
+                hiddenInput.name = 'selected_classrooms';
+                hiddenInput.value = box.getAttribute('data-id');
+                form.appendChild(hiddenInput);
+            });
+            
+            return true;
+        }
+    </script>
+</body>
+</html>

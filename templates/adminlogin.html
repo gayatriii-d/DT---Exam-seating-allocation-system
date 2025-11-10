@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login - KKWIEER</title>
+  <style>
+    body { margin: 0; font-family: 'Segoe UI', Tahoma, sans-serif; background: linear-gradient(to right, #e8f0ff, #f5f9ff); display: flex; flex-direction: column; align-items: center; }
+    .header { text-align: center; margin-top: 30px; }
+    .header img { width: 160px; }
+    h1 { color: #272772; font-size: 22px; margin-top: 10px; }
+    .login-box { width: 45%; max-width: 600px; min-width: 320px; margin: 20px auto; padding: 30px 25px; background: white; border-radius: 20px; box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
+    h2 { text-align: center; color: #272772; margin-bottom: 20px; }
+    input[type="text"], input[type="password"] { width: 90%; padding: 12px; margin: 10px auto; border: 1px solid #bbb; border-radius: 8px; font-size: 15px; }
+    .btn { width: 100%; padding: 12px; background: #272772; color: #fff; border: none; border-radius: 8px; font-size: 16px; margin-top: 15px; cursor: pointer; }
+    .links { text-align: center; margin-top: 15px; font-size: 14px; }
+    .links a { color: #272772; font-weight: bold; text-decoration: none; }
+    .alert { padding: 15px; margin-bottom: 20px; border: 1px solid transparent; border-radius: 8px; text-align: center; font-size: 15px; }
+    .alert-danger { color: #a94442; background-color: #f2dede; border-color: #ebccd1; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <img src="https://tse4.mm.bing.net/th/id/OIP.eJ9MQ8lh5JFqfD1CmNghzQAAAA?pid=Api&P=0&h=180" alt="KKW Logo">
+    <h1>Admin Portal - KKWIEER</h1>
+  </div>
+  <div class="login-box">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}{% for category, message in messages %}<div class="alert alert-{{ category }}">{{ message }}</div>{% endfor %}{% endif %}
+    {% endwith %}
+    <h2>Admin Login</h2>
+    <form method="POST" action="{{ url_for('admin_login') }}">
+      <input type="text" name="username" placeholder="Admin Username" required>
+      <input type="password" name="password" placeholder="Password" required>
+      <button type="submit" class="btn">Login</button>
+    </form>
+    <div class="links">
+      <a href="{{ url_for('aforgot') }}">Forgot Password?</a><br>
+      Don’t have an account? <a href="{{ url_for('admin_signup') }}">Sign Up</a>
+    </div>
+  </div>
+</body>
+</html>

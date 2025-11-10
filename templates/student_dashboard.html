@@ -1,0 +1,369 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard - KKWIEER</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background: linear-gradient(to right, #bfdbfe, #dbeafe); font-size: 15px; }
+        .classroom-layout {
+            max-width: 700px;
+            margin: 15px auto;
+            padding: 25px;
+            background: #f5f5dc;
+            border: 3px solid #c2b17a;
+            border-radius: 8px;
+            position: relative;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.1);
+        }
+        .blackboard {
+            width: 100%;
+            height: 40px;
+            background: #000000;
+            border: 2px solid #bf9898;
+            margin: 0 0 5px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 13px;
+            border-radius: 3px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+        }
+        .teacher-chair {
+            width: 25px;
+            height: 12px;
+            background: #8B4513;
+            border: 2px solid #654321;
+            margin: 45px auto 3px;
+        }
+        .teacher-table {
+            width: 50px;
+            height: 18px;
+            background: #8B4513;
+            border: 2px solid #654321;
+            margin: 0 auto 10px;
+        }
+        .bench-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+            margin: 0 30px;
+        }
+        .bench {
+            width: 45px;
+            height: 25px;
+            border: 1px solid #999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #efca97;
+            border-radius: 2px;
+            font-weight: bold;
+            font-size: 11px;
+        }
+        .bench.allocated {
+            background-color: #099430;
+            color: white;
+            border-color: #073907;
+        }
+        .window {
+            position: absolute;
+            width: 18px;
+            height: 60px;
+            background: #ffffff;
+            border: 2px solid #666;
+            border-radius: 2px;
+        }
+        .window1 { left: 2px; top: 70px; }
+        .window2 { left: 2px; top: 140px; }
+        .window3 { left: 2px; top: 210px; }
+        .window::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: #666;
+            transform: translateY(-50%);
+        }
+        .door {
+            position: absolute;
+            right: 2px;
+            top: 120px;
+            width: 18px;
+            height: 100px;
+            background: #53331c;
+            border: 2px solid #2e1e0f;
+            border-radius: 3px;
+        }
+        .door::after {
+            content: '';
+            position: absolute;
+            right: 3px;
+            top: 45px;
+            width: 4px;
+            height: 4px;
+            background: #ffd700;
+            border-radius: 50%;
+        }
+        .floor-tiles {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 10px;
+            background: repeating-linear-gradient(90deg, #ddd 0px, #ddd 20px, #ccc 20px, #ccc 40px);
+        }
+        .allocation-info {
+            background-color: #bfdbfe;
+            padding: 13px;
+            border-radius: 10px;
+            margin-top: 13px;
+            border: 1px solid #1e3a8a;
+            font-size: 19px;
+        }
+        .card { box-shadow: 0 4px 8px rgba(0,0,0,0.1); border: none; border-radius: 15px; }
+        .card-header { background-color: #1e3a8a; color: white; border-radius: 15px 15px 0 0; font-size: 16px; }
+        .card-body { border-radius: 0 0 15px 15px; font-size: 14px; }
+        .btn-primary { background-color: #1e3a8a; border-color: #1e3a8a; border-radius: 10px; font-size: 14px; }
+        .form-select, .form-control { border-radius: 15px; font-size: 14px; }
+        .form-label { font-size: 14px; }
+        .allocation-info { border-radius: 15px; }
+        .navbar-brand { font-size: 19px; }
+        .navbar-text { font-size: 15px; }
+        .nav-link { font-size: 15px; }
+        h4 { font-size: 21px; }
+        h5 { font-size: 17px; }
+        h6 { font-size: 19px; }
+        .alert { font-size: 14px; border-radius: 15px; }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #1e3a8a;">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">K. K. Wagh Institute of Engineering Education & Research</a>
+            <a class="navbar-brand" href="#"></a>
+            <a class="navbar-brand" href="#"></a>
+            <a class="navbar-brand" href="#"></a>
+            <a class="navbar-brand" href="#"></a>
+            <a class="navbar-brand" href="#"></a>
+            <a class="navbar-brand" href="#"></a>
+            <a class="navbar-brand" href="#"></a>
+            <a class="navbar-brand" href="#"></a>
+            <a class="navbar-brand" href="#"></a>
+            <a class="navbar-brand" href="#"></a>
+            <a class="navbar-brand" href="#"></a>
+            <a class="navbar-brand" href="#"></a>
+            <a class="navbar-brand" href="#">EXAM CELL</a>
+            <div class="navbar-nav ms-auto">
+                <span class="navbar-text me-3">Welcome, {{ session.username }}!</span>
+                <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid mt-1" style="max-width: 1600px;">
+        <div class="row">
+            <div class="col-lg-5 col-md-5">
+                <div class="card" style="max-width: 600px;">
+                    <div class="card-header">
+                        <h5>Check Your Seat Allocation</h5>
+                    </div>
+                    <div class="card-body">
+                        <form id="allocationForm">
+                            <div class="mb-3">
+                                <label class="form-label">Exam Type</label>
+                                <select class="form-select" name="exam_type" required>
+                                    <option value="">Select Exam Type</option>
+                                    <option value="In-Sem">In-Sem</option>
+                                    <option value="End-Sem">End-Sem</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Semester</label>
+                                <select class="form-select" name="semester" required>
+                                    <option value="">Select Semester</option>
+                                    <option value="I">I</option>
+                                    <option value="II">II</option>
+                                    <option value="III">III</option>
+                                    <option value="IV">IV</option>
+                                    <option value="V">V</option>
+                                    <option value="VI">VI</option>
+                                    <option value="VII">VII</option>
+                                    <option value="VIII">VIII</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Year</label>
+                                <select class="form-select" name="year" required>
+                                    <option value="">Select Year</option>
+                                    <option value="1st">1st</option>
+                                    <option value="2nd">2nd</option>
+                                    <option value="3rd">3rd</option>
+                                    <option value="4th">4th</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Branch</label>
+                                <select class="form-select" name="branch" required>
+                                    <option value="">Select Branch</option>
+                                    <option value="Computer">Computer</option>
+                                    <option value="Civil">Civil</option>
+                                    <option value="Electrical">Electrical</option>
+                                    <option value="AIDS">AIDS</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Roll Number</label>
+                                <input type="text" class="form-control" name="roll_no" placeholder="e.g., S1234567890" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Check Allocation</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-7 col-md-7">
+                <!-- Seating Layout -->
+                <div id="seatingLayout" class="card" style="display: none;">
+                    <div class="card-header">
+                        <h5>Classroom Seating Layout</h5>
+                    </div>
+                    <div class="card-body text-center">
+                        <div class="classroom-layout">
+                            <div class="blackboard">BLACKBOARD</div>
+                            <div class="teacher-chair"></div>
+        <div class="teacher-table"></div>
+                            <div class="bench-grid">
+                                <!-- Column 1 (1-7) -->
+                                <div class="bench" data-bench="1">1</div>
+                                <div class="bench" data-bench="8">8</div>
+                                <div class="bench" data-bench="15">15</div>
+                                <div class="bench" data-bench="22">22</div>
+                                <div class="bench" data-bench="29">29</div>
+                                <!-- Column 2 (2-8) -->
+                                <div class="bench" data-bench="2">2</div>
+                                <div class="bench" data-bench="9">9</div>
+                                <div class="bench" data-bench="16">16</div>
+                                <div class="bench" data-bench="23">23</div>
+                                <div class="bench" data-bench="30">30</div>
+                                <!-- Column 3 (3-9) -->
+                                <div class="bench" data-bench="3">3</div>
+                                <div class="bench" data-bench="10">10</div>
+                                <div class="bench" data-bench="17">17</div>
+                                <div class="bench" data-bench="24">24</div>
+                                <div class="bench" data-bench="31">31</div>
+                                <!-- Column 4 (4-10) -->
+                                <div class="bench" data-bench="4">4</div>
+                                <div class="bench" data-bench="11">11</div>
+                                <div class="bench" data-bench="18">18</div>
+                                <div class="bench" data-bench="25">25</div>
+                                <div class="bench" data-bench="32">32</div>
+                                <!-- Column 5 (5-11) -->
+                                <div class="bench" data-bench="5">5</div>
+                                <div class="bench" data-bench="12">12</div>
+                                <div class="bench" data-bench="19">19</div>
+                                <div class="bench" data-bench="26">26</div>
+                                <div class="bench" data-bench="33">33</div>
+                                <!-- Column 6 (6-12) -->
+                                <div class="bench" data-bench="6">6</div>
+                                <div class="bench" data-bench="13">13</div>
+                                <div class="bench" data-bench="20">20</div>
+                                <div class="bench" data-bench="27">27</div>
+                                <div class="bench" data-bench="34">34</div>
+                                <!-- Column 7 (7-13) -->
+                                <div class="bench" data-bench="7">7</div>
+                                <div class="bench" data-bench="14">14</div>
+                                <div class="bench" data-bench="21">21</div>
+                                <div class="bench" data-bench="28">28</div>
+                                <div class="bench" data-bench="35">35</div>
+                            </div>
+                            <div class="window window1"></div>
+                            <div class="window window2"></div>
+                            <div class="window window3"></div>
+                            <div class="door"></div>
+                            <div class="floor-tiles"></div>
+                        </div>
+                        
+                        <div id="allocationInfo" class="allocation-info" style="display: none;">
+                            <h6>Your Seat Details:</h6>
+                            <div class="row">
+                                <div class="col-6">
+                                    <p><strong>Wing:</strong> <span id="wing"></span></p>
+                                    <p><strong>Block Number:</strong> <span id="blockNumber"></span></p>
+                                </div>
+                                <div class="col-6">
+                                    <p><strong>Bench Number:</strong> <span id="benchNumber"></span></p>
+                                    <p><strong>Classroom:</strong> <span id="classroom"></span></p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div id="notFound" class="alert alert-warning" style="display: none;">
+                            No seat allocation found for the provided details. Please check your information or contact the exam cell.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('allocationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            
+            fetch('/student/check_allocation', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                const seatingLayout = document.getElementById('seatingLayout');
+                const allocationInfo = document.getElementById('allocationInfo');
+                const notFound = document.getElementById('notFound');
+                
+                // Reset all benches
+                document.querySelectorAll('.bench').forEach(bench => {
+                    bench.classList.remove('allocated');
+                });
+                
+                seatingLayout.style.display = 'block';
+                
+                if (data.found) {
+                    // Highlight the allocated bench
+                    const allocatedBench = document.querySelector(`[data-bench="${data.bench_number}"]`);
+                    if (allocatedBench) {
+                        allocatedBench.classList.add('allocated');
+                    }
+                    
+                    // Show allocation details
+                    document.getElementById('benchNumber').textContent = data.bench_number;
+                    document.getElementById('classroom').textContent = data.classroom;
+                    document.getElementById('wing').textContent = data.wing;
+                    document.getElementById('blockNumber').textContent = data.block_no;
+                    
+                    allocationInfo.style.display = 'block';
+                    notFound.style.display = 'none';
+                } else {
+                    allocationInfo.style.display = 'none';
+                    notFound.style.display = 'block';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while checking allocation.');
+            });
+        });
+    </script>
+</body>
+</html>

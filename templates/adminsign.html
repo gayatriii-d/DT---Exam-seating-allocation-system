@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Sign Up - KKWIEER</title>
+  <style>
+    body { margin: 0; font-family: 'Segoe UI', Tahoma, sans-serif; background: linear-gradient(to right, #e8f0ff, #f5f9ff); display: flex; flex-direction: column; align-items: center; }
+    .header { text-align: center; margin-top: 30px; }
+    .header img { width: 150px; }
+    .header h1 { color: #272772; font-size: 22px; margin-top: 10px; }
+    .signup-box { width: 45%; max-width: 600px; min-width: 320px; margin: 30px auto; padding: 25px; background: white; border-radius: 20px; box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
+    .signup-box h2 { text-align: center; color: #272772; margin-bottom: 20px; }
+    input[type="text"], input[type="email"], input[type="password"] { width: 90%; padding: 12px; margin: 10px auto; border: 1px solid #bbb; border-radius: 8px; font-size: 15px; }
+    .btn { width: 100%; padding: 12px; background: #272772; color: #fff; border: none; border-radius: 8px; font-size: 16px; margin-top: 15px; cursor: pointer; }
+    .links { text-align: center; margin-top: 15px; font-size: 14px; }
+    .links a { color: #272772; font-weight: bold; text-decoration: none; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <img src="https://tse4.mm.bing.net/th/id/OIP.eJ9MQ8lh5JFqfD1CmNghzQAAAA?pid=Api&P=0&h=180" alt="KKW Logo">
+    <h1>Admin Portal - KKWIEER</h1>
+  </div>
+  <div class="signup-box">
+    <h2>Admin Sign Up</h2>
+    <form method="POST" action="{{ url_for('admin_signup') }}">
+      <input type="text" name="fullname" placeholder="Full Name" required>
+      <input type="email" name="email" placeholder="Email Address" required>
+      <input type="text" name="username" placeholder="Admin Username" required>
+      <input type="password" name="password" placeholder="Password" required>
+      <input type="password" name="admin_key" placeholder="Admin Registration Key" required>
+      <button type="submit" class="btn">Create Account</button>
+    </form>
+    <div class="links">
+      Already have an account? <a href="{{ url_for('admin_login') }}">Login</a>
+    </div>
+  </div>
+</body>
+</html>

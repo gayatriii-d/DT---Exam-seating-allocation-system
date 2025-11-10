@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>KKWIEER Portal</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #bfdbfe, #dbeafe);
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      justify-content: center;
+    }
+
+    .container {
+      text-align: center;
+      background: white;
+      padding: 40px 30px;
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+      max-width: 420px;
+      width: 90%;
+    }
+
+    .container img {
+      width: 160px;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      color: #1e3a8a;
+      font-size: 22px;
+      margin-bottom: 20px;
+    }
+
+    .role-btn {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      margin: 15px 0;
+      font-size: 16px;
+      background-color: #1e3a8a;
+      color: white;
+      border: none;
+      border-radius: 15px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      text-decoration: none;
+    }
+
+    .role-btn:hover {
+      background-color: #1e40af;
+    }
+
+    .footer {
+      text-align: center;
+      font-size: 13px;
+      color: #888;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img src="https://tse4.mm.bing.net/th/id/OIP.eJ9MQ8lh5JFqfD1CmNghzQAAAA?pid=Api&P=0&h=180" alt="KKW Logo">
+    <h1>EXAM SEATING ARRANGEMENT SYSTEM</h1>
+    <a href="{{ url_for('admin_login') }}" class="role-btn">Admin Login</a>
+    <a href="{{ url_for('student_login') }}" class="role-btn">Student Login</a>
+  </div>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Forgot Password - KKWIEER</title>
+  <style>
+    body { margin: 0; font-family: 'Segoe UI', Tahoma, sans-serif; background: linear-gradient(to right, #e8f0ff, #f5f9ff); display: flex; flex-direction: column; align-items: center; }
+    .header { text-align: center; margin-top: 30px; }
+    .header img { width: 140px; }
+    .header h1 { font-size: 22px; color: #272772; margin-top: 10px; }
+    .forgot-box { width: 45%; max-width: 600px; min-width: 320px; margin: 30px auto; padding: 25px; background: white; border-radius: 20px; box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
+    h2 { text-align: center; color: #272772; margin-bottom: 20px; }
+    input[type="email"] { width: 90%; padding: 12px; margin: 10px auto; border: 1px solid #bbb; border-radius: 8px; font-size: 15px; display: block; }
+    .btn { width: 100%; padding: 12px; background: #272772; color: #fff; border: none; border-radius: 8px; font-size: 16px; margin-top: 15px; cursor: pointer; }
+    .links { text-align: center; margin-top: 15px; font-size: 14px; }
+    .links a { color: #272772; font-weight: bold; text-decoration: none; }
+  </style>
+</head>
+<body>
+  <div class="header"><img src="https://tse4.mm.bing.net/th/id/OIP.eJ9MQ8lh5JFqfD1CmNghzQAAAA?pid=Api&P=0&h=180" alt="KKW Logo"><h1>Admin Portal - KKWIEER</h1></div>
+  <div class="forgot-box">
+    <h2>Forgot Password</h2>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ 'success' if category == 'success' else 'info' if category == 'info' else 'danger' }}" style="padding: 10px; margin: 10px 0; border-radius: 5px; text-align: center; background-color: {{ '#d4edda' if category == 'success' else '#d1ecf1' if category == 'info' else '#f8d7da' }}; color: {{ '#155724' if category == 'success' else '#0c5460' if category == 'info' else '#721c24' }}; border: 1px solid {{ '#c3e6cb' if category == 'success' else '#bee5eb' if category == 'info' else '#f5c6cb' }};">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+    <form method="POST" action="{{ url_for('aforgot') }}">
+      <input type="email" name="email" placeholder="Enter Admin Email" required>
+      <button type="submit" class="btn">Send Reset Email</button>
+    </form>
+    <div class="links">Remembered your password? <a href="{{ url_for('admin_login') }}">Login</a></div>
+  </div>
+</body>
+</html>
